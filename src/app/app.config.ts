@@ -5,6 +5,7 @@ import { provideHttpClient, withInterceptors } from "@angular/common/http";
 
 import { routes } from "./app.routes";
 import { apiAtomInterceptor } from "./core/interceptors/api-atom.interceptor";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -13,5 +14,6 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(
             withInterceptors([apiAtomInterceptor])
         ),
+        ...(ModalModule.forRoot().providers || []),
     ]
 };

@@ -17,7 +17,6 @@ import { Router } from "@angular/router";
     NgIf
   ],
   templateUrl: './auth.component.html',
-  styleUrl: './auth.component.scss'
 })
 export class AuthComponent {
   loginForm!: FormGroup;

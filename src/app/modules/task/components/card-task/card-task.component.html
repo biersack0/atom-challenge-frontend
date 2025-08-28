@@ -1,0 +1,21 @@
+<div class="card card-body">
+    <span class="side-stick"></span>
+    <h6 class="note-title text-truncate w-75 mb-0">
+        {{ task.title }}</h6>
+    <div>
+        <span class="badge my-2" [ngClass]="task.isCompleted ? 'bg-success' : 'bg-warning'">{{ task.isCompleted ?
+            'Completado' : 'Pendiente' }}</span>
+    </div>
+    <p class="note-date fs-2">{{ toDate(task.createdAt) }}</p>
+    <div class="note-content">
+        <p class="note-inner-content">{{ task.description }}</p>
+    </div>
+    <div class="d-flex align-items-center">
+        <a class="link me-1" (click)="openModal(task!, 'edit')">
+            <i class="ti ti-pencil fs-4 favourite-note"></i>
+        </a>
+        <a class="link text-danger ms-2" (click)="confirmDeleteAlert(task.id!)">
+            <i class="ti ti-trash fs-4 remove-note"></i>
+        </a>
+    </div>
+</div>
