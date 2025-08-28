@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ApiAtomInterceptor implements HttpInterceptor {
 	intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 		let request = req;
-		const token = localStorage.getItem('token');
+		const token = localStorage.getItem('token') || '';
 
 		const headers = new HttpHeaders({
 			Authorization: `Bearer ${token}`,

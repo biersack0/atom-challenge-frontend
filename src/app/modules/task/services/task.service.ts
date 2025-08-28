@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ITask, ITaskRepository, ITaskService } from '../contracts/task.contract';
+import { ITask, ITaskService } from '../contracts/task.contract';
+import { TaskRepository } from '../repositories/task.repository';
 import { Observable } from 'rxjs';
 import { ApiResponse } from '@app/core/models/api-response.model';
 
@@ -7,7 +8,7 @@ import { ApiResponse } from '@app/core/models/api-response.model';
   providedIn: 'root'
 })
 export class TaskService implements ITaskService {
-  constructor(private taskRepository: ITaskRepository) { }
+  constructor(private taskRepository: TaskRepository) { }
   getTasksByUser(userId: string): Observable<ApiResponse<ITask[]>> {
     return this.taskRepository.getTasksByUser(userId);
   }

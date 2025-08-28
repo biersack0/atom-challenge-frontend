@@ -13,19 +13,19 @@ export class TaskRepository implements ITaskRepository {
 
     constructor(private http: HttpClient) { }
     getTasksByUser(userId: string): Observable<ApiResponse<ITask[]>> {
-        return this.http.get<ApiResponse<ITask[]>>(`${this.url}/tasks/user/${userId}`);
+        return this.http.get<ApiResponse<ITask[]>>(`${this.url}/task/${userId}`);
     }
     findById(id: string): Observable<ApiResponse<ITask>> {
-        return this.http.get<ApiResponse<ITask>>(`${this.url}/tasks/${id}`);
+        return this.http.get<ApiResponse<ITask>>(`${this.url}/task/${id}`);
     }
     create(task: ITask): Observable<ApiResponse<ITask>> {
-        return this.http.post<ApiResponse<ITask>>(`${this.url}/tasks`, task);
+        return this.http.post<ApiResponse<ITask>>(`${this.url}/task`, task);
     }
     update(task: ITask): Observable<ApiResponse<ITask>> {
-        return this.http.put<ApiResponse<ITask>>(`${this.url}/tasks}`, task);
+        return this.http.put<ApiResponse<ITask>>(`${this.url}/task`, task);
     }
     delete(id: string): Observable<ApiResponse<void>> {
-        return this.http.delete<ApiResponse<void>>(`${this.url}/tasks/${id}`);
+        return this.http.delete<ApiResponse<void>>(`${this.url}/task/${id}`);
     }
 
 }

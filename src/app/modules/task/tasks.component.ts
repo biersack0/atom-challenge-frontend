@@ -13,14 +13,14 @@ export class TasksComponent {
 
   ngOnInit() {
     const userId = localStorage.getItem('1');
-    if (userId) {
-      this.getTasks(userId);
-    }
+    // if (userId) {
+    this.getTasks("2");
+    // }
   }
 
   getTasks(userId: string) {
-    /* this.taskService.getTasksByUser(userId).subscribe((response) => {
+    this.taskService.getTasksByUser(userId).subscribe((response) => {
       console.log(response);
-    }); */
+    });
   }
 }
