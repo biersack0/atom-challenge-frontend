@@ -8,6 +8,8 @@
     "build:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:service": "npm test -- --include='**/*.service.spec.ts'",
+    "test:repository": "npm test -- --include='**/*.repository.spec.ts'",
     "lint": "ng lint",
     "deploy": "npm run build:prod && firebase deploy --only hosting",
     "deploy:hosting": "firebase deploy --only hosting"
