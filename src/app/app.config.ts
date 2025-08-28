@@ -1,18 +1,17 @@
 import { ApplicationConfig } from "@angular/core";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { provideRouter } from "@angular/router";
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
 
 import { routes } from "./app.routes";
-import { HTTP_INTERCEPTORS, provideHttpClient } from "@angular/common/http";
-import { ApiAtomInterceptor } from "./core/interceptors/api-atom.service";
+import { apiAtomInterceptor } from "./core/interceptors/api-atom.interceptor";
 
 export const appConfig: ApplicationConfig = {
     providers: [
-        provideRouter(routes), provideAnimationsAsync(), provideHttpClient(),
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: ApiAtomInterceptor,
-            multi: true
-        }
+        provideRouter(routes),
+        provideAnimationsAsync(),
+        provideHttpClient(
+            withInterceptors([apiAtomInterceptor])
+        ),
     ]
 };
