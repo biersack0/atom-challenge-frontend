@@ -5,6 +5,7 @@ import { ControlMessageComponent } from "@app/shared/components/control-message/
 import { CustomValidators } from "@app/shared/utils/custom-validators";
 import { AuthService } from "./services/auth.service";
 import Swal from "sweetalert2";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-auth',
@@ -22,7 +23,7 @@ export class AuthComponent {
   loginForm!: FormGroup;
   isLoading = false;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
     this.initForm();
   }
 
@@ -45,11 +46,13 @@ export class AuthComponent {
     this.isLoading = true;
     this.authService.login(email).subscribe({
       next: (response) => {
-        const { data } = response;
-        const { user, token } = data;
-        console.log(user, token);
+        const { status } = response;
 
-        this.showAlert('Inicio de sesión exitoso', 'success');
+        if (status === "success") {
+          this.router.navigate(['/tasks']);
+        } else {
+          this.showAlert('Error al iniciar sesión', 'error');
+        }
       },
       error: (_) => {
         this.registerAlert(email);

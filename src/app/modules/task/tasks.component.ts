@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TaskService } from './services/task.service';
+import { TokenService } from '@app/core/services/token.service';
 
 @Component({
   selector: 'app-tasks',
@@ -9,13 +10,13 @@ import { TaskService } from './services/task.service';
   styleUrl: './tasks.component.scss'
 })
 export class TasksComponent {
-  constructor(private taskService: TaskService) { }
+  constructor(private taskService: TaskService, private tokenService: TokenService) { }
 
   ngOnInit() {
-    const userId = localStorage.getItem('1');
-    // if (userId) {
-    this.getTasks("2");
-    // }
+    const userId = this.tokenService.getUser().id;
+    if (userId) {
+      this.getTasks(userId);
+    }
   }
 
   getTasks(userId: string) {
