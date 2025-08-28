@@ -13,7 +13,7 @@ Esta es una aplicación web desarrollada con Angular 17.3.6 para la gestión de 
 ![Aplicación](https://res.cloudinary.com/dpzospnqt/image/upload/v1756417591/Captura_de_pantalla_2025-08-28_a_la_s_16.43.51_c4imlh.png)
 
 
-![Aplicación](https://res.cloudinary.com/dpzospnqt/image/upload/v1756417589/Captura_de_pantalla_2025-08-28_a_la_s_16.42.13_lxzdd3.png)
+![Aplicación](https://res.cloudinary.com/dpzospnqt/image/upload/v1756417592/Captura_de_pantalla_2025-08-28_a_la_s_16.44.19_azjthf.png)
 
 
 
