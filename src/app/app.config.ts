@@ -6,6 +6,7 @@ import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { routes } from "./app.routes";
 import { apiAtomInterceptor } from "./core/interceptors/api-atom.interceptor";
 import { ModalModule } from "ngx-bootstrap/modal";
+import { provideLottieOptions } from "ngx-lottie";
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -14,6 +15,9 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(
             withInterceptors([apiAtomInterceptor])
         ),
+        provideLottieOptions({
+            player: () => import('lottie-web'),
+        }),
         ...(ModalModule.forRoot().providers || []),
     ]
 };

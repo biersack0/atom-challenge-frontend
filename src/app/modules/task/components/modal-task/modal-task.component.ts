@@ -84,13 +84,13 @@ export class ModalTaskComponent {
     }
 
     this.taskService.create(task).subscribe((response) => {
-      console.log('📋 Tarea creada:', response);
       this.closeModal();
     });
   }
 
   updateTask(title: string, description: string, isCompleted: boolean) {
     const task: ITask = {
+      id: this.task?.id || '',
       userId: this.tokenService.getUser()?.id || '',
       title,
       description,

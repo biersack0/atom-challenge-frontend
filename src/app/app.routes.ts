@@ -18,6 +18,6 @@ export const routes: Routes = [
     },
     {
         path: "**",
-        redirectTo: "/auth"
+        loadComponent: () => import("./shared/components/not-found/not-found.component").then((m) => m.NotFoundComponent)
     }
 ];

@@ -1,22 +1,23 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TaskService } from './services/task.service';
 import { TokenService } from '@app/core/services/token.service';
 import { ITask } from './contracts/task.contract';
 import { ModalTaskComponent } from './components/modal-task/modal-task.component';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardTaskComponent } from './components/card-task/card-task.component';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, ModalTaskComponent, NgIf, NgFor, ReactiveFormsModule, CardTaskComponent],
+  imports: [CommonModule, NgOptimizedImage, ModalTaskComponent, NgIf, NgFor, ReactiveFormsModule, CardTaskComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
-export class TasksComponent implements OnInit {
+export class TasksComponent implements OnInit, OnDestroy {
   tasks: ITask[] = [];
   tasksFiltered: ITask[] = [];
   filter: 'all' | 'completed' | 'pending' = 'all';
@@ -25,6 +26,8 @@ export class TasksComponent implements OnInit {
   @ViewChild('modalTaskTemplate', { static: true }) private modalTaskTemplate!: TemplateRef<any>;
 
   taskSelected: ITask | null = null;
+
+  subscriptionTasks!: Subscription;
 
   constructor(
     private taskService: TaskService,
@@ -35,25 +38,30 @@ export class TasksComponent implements OnInit {
   }
 
   ngOnInit() {
-    const userId = this.tokenService.getUser()?.id;
-    if (userId) {
-      this.getTasks(userId);
+    const user = this.tokenService.getUser();
+    if (user?.id) {
+      this.getTasks(user.id);
+
+      this.subscriptionTasks = this.taskService.refresh$.subscribe(() => {
+        this.getTasks(user.id!);
+      });
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptionTasks.unsubscribe();
   }
 
   getTasks(userId: string) {
     this.taskService.getTasksByUser(userId).subscribe((response) => {
       this.tasks = response.data;
       this.tasksFiltered = [...this.tasks];
-      console.log('📋 Tareas obtenidas:', response);
     });
   }
 
-
-
   deleteTask(id: string) {
     this.taskService.delete(id).subscribe((response) => {
-      console.log('📋 Tarea eliminada:', response);
+
     });
   }
 
@@ -67,14 +75,6 @@ export class TasksComponent implements OnInit {
       ignoreBackdropClick: true,
       backdrop: 'static'
     });
-  }
-
-  confirmButtonModal() {
-    console.log('confirmButtonModal');
-  }
-
-  closeButtonModal() {
-    console.log('closeButtonModal');
   }
 
   filterTasks(filter: 'all' | 'completed' | 'pending') {

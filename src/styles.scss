@@ -1,5 +1,31 @@
-/* @import "assets/styles/theme";
+@import 'assets/scss/variables';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Inter, "Helvetica Neue", sans-serif; }
- */
+.button-primary {
+    background-color: $primary;
+    color: #fff;
+    border: 1px solid $primary;
+}
+
+.button-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: $primary;
+    color: #fff;
+}
+
+.button-outline-primary {
+    background-color: #fff;
+    color: $primary;
+    border: 1px solid $primary;
+}
+
+.button-outline-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    background-color: $primary;
+    color: #fff;
+}
+
+.pointer {
+    cursor: pointer;
+}
