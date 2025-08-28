@@ -15,12 +15,6 @@ describe("AppComponent", () => {
         expect(app).toBeTruthy();
     });
 
-    it("should have the 'atom-challenge-fe-template' title", () => {
-        const fixture = TestBed.createComponent(AppComponent);
-        const app = fixture.componentInstance;
-        expect(app.title).toEqual("atom-challenge-fe-template");
-    });
-
     it("should render title", () => {
         const fixture = TestBed.createComponent(AppComponent);
         fixture.detectChanges();

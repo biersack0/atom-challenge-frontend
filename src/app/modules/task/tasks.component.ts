@@ -1,10 +1,10 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TaskService } from './services/task.service';
 import { TokenService } from '@app/core/services/token.service';
 import { ITask } from './contracts/task.contract';
 import { ModalTaskComponent } from './components/modal-task/modal-task.component';
 import { CommonModule, NgFor, NgIf, NgOptimizedImage } from '@angular/common';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardTaskComponent } from './components/card-task/card-task.component';
 import { Router } from '@angular/router';
@@ -20,10 +20,7 @@ import { Subscription } from 'rxjs';
 export class TasksComponent implements OnInit, OnDestroy {
   tasks: ITask[] = [];
   tasksFiltered: ITask[] = [];
-  filter: 'all' | 'completed' | 'pending' = 'all';
-
-  bsModalRef?: BsModalRef;
-  @ViewChild('modalTaskTemplate', { static: true }) private modalTaskTemplate!: TemplateRef<any>;
+  filter: 'all' | 'completed' | 'pending' = 'pending';
 
   taskSelected: ITask | null = null;
 
@@ -56,17 +53,12 @@ export class TasksComponent implements OnInit, OnDestroy {
     this.taskService.getTasksByUser(userId).subscribe((response) => {
       this.tasks = response.data;
       this.tasksFiltered = [...this.tasks];
-    });
-  }
-
-  deleteTask(id: string) {
-    this.taskService.delete(id).subscribe((response) => {
-
+      this.filterTasks(this.filter)
     });
   }
 
   openModal() {
-    this.bsModalRef = this.modalService.show(ModalTaskComponent, {
+    this.modalService.show(ModalTaskComponent, {
       initialState: {
         typeModal: 'create',
         task: this.taskSelected,

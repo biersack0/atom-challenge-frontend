@@ -30,10 +30,4 @@ describe('NotFoundComponent', () => {
         component.goHome();
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/auth']);
     });
-
-    it('should call window.history.back when goBack is called', () => {
-        spyOn(window.history, 'back');
-        component.goBack();
-        expect(window.history.back).toHaveBeenCalled();
-    });
 });

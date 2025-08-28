@@ -19,7 +19,7 @@ export class CardTaskComponent {
   toDate(timestamp: any): string {
     const milliseconds = timestamp._seconds * 1000 + Math.floor(timestamp._nanoseconds / 1_000_000);
     const date = moment(milliseconds);
-    return date.format('DD/MM/YYYY HH:mm');
+    return date.format('DD/MM/YYYY');
   }
 
   openModal(task: ITask, typeModal: 'edit' | 'delete') {

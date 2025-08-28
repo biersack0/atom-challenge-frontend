@@ -1,37 +1,37 @@
-<div class="page-wrapper">
+<div class="container-fluid">
     <header class="topbar card rounded-0 border-0">
-        <div class="d-flex justify-content-end my-3">
-            <button class="btn btn-outline-danger" (click)="logout()">Cerrar sesión</button>
+        <div class="d-flex justify-content-between my-3">
+            <img alt="Logo de ATOM Chat" ngSrc="assets/images/logo-atom-chat.webp" width="152.5" height="40" priority />
+            <button class="btn button-primary" (click)="logout()">Cerrar sesión</button>
         </div>
     </header>
 
     <div class="body-wrapper">
         <div class="container-fluid">
             <h1 class="text-center mb-4">Tareas</h1>
-
             <ul class="nav nav-pills p-3 mb-3 rounded align-items-center card flex-row">
                 <li class="nav-item">
-                    <a (click)="filterTasks('all')" class="nav-link" [ngClass]="{'active': filter === 'all'}">
-                        <span class="d-none d-md-block font-weight-medium">Todo</span>
+                    <a (click)="filterTasks('all')" class="nav-link pointer" [ngClass]="{'active': filter === 'all'}">
+                        <span class="font-weight-medium">Todo</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a (click)="filterTasks('completed')" class="nav-link"
+                    <a (click)="filterTasks('completed')" class="nav-link pointer"
                         [ngClass]="{'active': filter === 'completed'}">
-                        <span class="d-none d-md-block font-weight-medium">Completados</span>
+                        <span class="font-weight-medium">Completados</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a (click)="filterTasks('pending')" class="nav-link" [ngClass]="{'active': filter === 'pending'}">
-                        <span class="d-none d-md-block font-weight-medium">Pendientes</span>
+                    <a (click)="filterTasks('pending')" class="nav-link pointer"
+                        [ngClass]="{'active': filter === 'pending'}">
+                        <span class="font-weight-medium">Pendientes</span>
                     </a>
                 </li>
 
                 <li class="nav-item ms-auto">
-                    <a (click)="openModal()" class="btn btn-primary d-flex align-items-center px-3 gap-6"
-                        id="add-notes">
-                        <i class="ti ti-file fs-4"></i>
-                        <span class="d-none d-md-block font-weight-medium fs-3">Agregar tarea</span>
+                    <a (click)="openModal()" class="btn button-primary d-flex align-items-center">
+                        <i class="fa-solid fa-plus"></i>
+                        <span class="ms-2 d-none d-md-block font-weight-medium fs-3">Agregar tarea</span>
                     </a>
                 </li>
             </ul>
