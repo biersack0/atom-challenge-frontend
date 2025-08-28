@@ -2,17 +2,17 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TaskService } from './services/task.service';
 import { TokenService } from '@app/core/services/token.service';
 import { ITask } from './contracts/task.contract';
-import { ModalComponent } from './components/modal/modal.component';
+import { ModalTaskComponent } from './components/modal-task/modal-task.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CardTaskComponent } from './components/card-task/card-task.component';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, ModalComponent, NgIf, NgFor, ReactiveFormsModule, CardTaskComponent],
+  imports: [CommonModule, ModalTaskComponent, NgIf, NgFor, ReactiveFormsModule, CardTaskComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
@@ -58,11 +58,14 @@ export class TasksComponent implements OnInit {
   }
 
   openModal() {
-    this.bsModalRef = this.modalService.show(ModalComponent, {
+    this.bsModalRef = this.modalService.show(ModalTaskComponent, {
       initialState: {
         typeModal: 'create',
         task: this.taskSelected,
-      }
+      },
+      class: 'modal-md modal-dialog-centered',
+      ignoreBackdropClick: true,
+      backdrop: 'static'
     });
   }
 

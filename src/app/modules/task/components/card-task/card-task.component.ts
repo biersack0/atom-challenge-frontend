@@ -1,11 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { ITask } from '../../contracts/task.contract';
+import { BsModalService } from 'ngx-bootstrap/modal';
 import { NgClass } from '@angular/common';
 import moment from 'moment';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { ModalComponent } from '../modal/modal.component';
-import Swal from 'sweetalert2';
-import { TaskService } from '../../services/task.service';
+import { ITask } from '../../contracts/task.contract';
+import { ModalTaskComponent } from '../modal-task/modal-task.component';
 
 @Component({
   selector: 'app-card-task',
@@ -16,9 +14,7 @@ import { TaskService } from '../../services/task.service';
 export class CardTaskComponent {
   @Input({ required: true }) task!: ITask;
 
-  constructor(private modalService: BsModalService, private taskService: TaskService) {
-
-  }
+  constructor(private modalService: BsModalService) { }
 
   toDate(timestamp: any): string {
     const milliseconds = timestamp._seconds * 1000 + Math.floor(timestamp._nanoseconds / 1_000_000);
@@ -26,33 +22,15 @@ export class CardTaskComponent {
     return date.format('DD/MM/YYYY HH:mm');
   }
 
-  deleteTask(taskId: string) {
-    this.taskService.delete(taskId).subscribe((response) => {
-      console.log('📋 Tarea eliminada:', response);
-    });
-  }
-
   openModal(task: ITask, typeModal: 'edit' | 'delete') {
-    this.modalService.show(ModalComponent, {
+    this.modalService.show(ModalTaskComponent, {
       initialState: {
         typeModal: typeModal,
-        task: this.task,
-      }
+        task: task,
+      },
+      class: 'modal-md modal-dialog-centered',
+      ignoreBackdropClick: true,
+      backdrop: 'static'
     });
-  }
-
-  confirmDeleteAlert(taskId: string) {
-    Swal.fire({
-      title: '¿Desea eliminar la tarea?',
-      text: 'Esta acción no se puede deshacer',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Sí, continuar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.deleteTask(taskId);
-      }
-    })
   }
 }

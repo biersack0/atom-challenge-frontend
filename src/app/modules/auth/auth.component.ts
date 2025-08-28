@@ -1,11 +1,11 @@
+import Swal from "sweetalert2";
+import { Router } from "@angular/router";
 import { NgIf, NgOptimizedImage } from "@angular/common";
 import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ControlMessageComponent } from "@app/shared/components/control-message/control-message.component";
 import { CustomValidators } from "@app/shared/utils/custom-validators";
 import { AuthService } from "./services/auth.service";
-import Swal from "sweetalert2";
-import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-auth',
@@ -28,8 +28,7 @@ export class AuthComponent {
 
   initForm() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, CustomValidators.validEmail()]],
-      remember: [false]
+      email: ['', [Validators.required, CustomValidators.validEmail()]]
     });
   }
 
@@ -66,16 +65,25 @@ export class AuthComponent {
     this.isLoading = true;
     this.authService.register(email).subscribe({
       next: (response) => {
-        console.log(response);
+        if (response.status === "success") {
+          this.router.navigate(['/tasks']);
+        }
+      },
+      error: (_) => {
+        this.showAlert('Error al registrarse', 'error');
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
   }
 
   showAlert(message: string, status: 'success' | 'error') {
+    const title = status === 'success' ? 'Éxito' : 'Error';
     Swal.fire({
-      title: status === 'success' ? 'Success' : 'Error',
+      title: title,
       text: message,
-      icon: status === 'success' ? 'success' : 'error',
+      icon: status,
       confirmButtonText: 'Aceptar',
       timer: 1500
     });

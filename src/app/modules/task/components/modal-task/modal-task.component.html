@@ -1,0 +1,55 @@
+<div class="modal-header">
+    <h5 class="modal-title pull-left">
+        {{ typeModal == 'create' ? 'Crear ' : '' }}
+        {{ typeModal == 'edit' ? 'Actualizar ' : '' }}
+        {{ typeModal == 'delete' ? 'Eliminar ' : '' }}
+        Tarea
+    </h5>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="closeModal()"
+        [disabled]="isLoadingRequest">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body pb-0">
+    <ng-container *ngIf="typeModal == 'delete'">
+        <p>¿Estás seguro de querer eliminar esta tarea?</p>
+    </ng-container>
+    <ng-container *ngIf="typeModal !== 'delete'">
+        <form [formGroup]="taskForm" (ngSubmit)="confirmButton()">
+            <div class="row">
+                <div class="col-md-12 mb-2">
+                    <app-control-message [control]="taskForm.get('title')!">
+                        <label for="title" class="form-label">Título</label>
+                        <input type="text" formControlName="title" id="title" class="form-control"
+                            aria-describedby="titleHelp" aria-required="true">
+                    </app-control-message>
+                </div>
+                <div class="col-md-12 mb-2">
+                    <app-control-message [control]="taskForm.get('description')!">
+                        <label for="description" class="form-label">Descripción</label>
+                        <textarea formControlName="description" id="description" class="form-control"
+                            aria-required="true"></textarea>
+                    </app-control-message>
+                </div>
+                <div class="col-md-12">
+                    <app-control-message [control]="taskForm.get('isCompleted')!">
+                        <label for="isCompleted" class="form-label me-2">Completado</label>
+                        <input type="checkbox" formControlName="isCompleted" id="isCompleted" class="form-check-input"
+                            aria-required="true">
+                    </app-control-message>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</div>
+<div class="modal-footer">
+    <button [disabled]="isLoadingRequest" class="btn mr-2" (click)="closeModal()">Cancelar</button>
+    <button [disabled]="isLoadingRequest" class="btn btn-primary" (click)="confirmButton()">
+        <div class="spinner-border text-white" style="width: 17px; height: 17px" role="status" *ngIf="isLoadingRequest">
+        </div>
+        {{ typeModal == 'create' ? 'Crear ' : '' }}
+        {{ typeModal == 'edit' ? 'Actualizar ' : '' }}
+        {{ typeModal == 'delete' ? 'Eliminar ' : '' }}
+    </button>
+</div>
