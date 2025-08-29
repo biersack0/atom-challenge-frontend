@@ -1,38 +1,27 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TaskRepository } from './task.repository';
 import { ITask } from '../contracts/task.contract';
 import { ApiResponse } from '@app/core/models/api-response.model';
-import { of } from 'rxjs';
+import { environment } from '@environments/environment';
 
-describe('TaskRepository Unit Tests', () => {
+describe('TaskRepository Integration Tests', () => {
     let repository: TaskRepository;
-    let httpClient: any;
-    const mockApiUrl = 'http://localhost:3000/api';
+    let httpMock: HttpTestingController;
+    const apiUrl = environment.api;
 
     beforeEach(() => {
-        const mockHttpClient = {
-            get: jest.fn(),
-            post: jest.fn(),
-            put: jest.fn(),
-            delete: jest.fn(),
-        };
-
         TestBed.configureTestingModule({
-            providers: [
-                TaskRepository,
-                { provide: HttpClient, useValue: mockHttpClient }
-            ]
+            imports: [HttpClientTestingModule],
+            providers: [TaskRepository],
         });
 
         repository = TestBed.inject(TaskRepository);
-        httpClient = TestBed.inject(HttpClient);
+        httpMock = TestBed.inject(HttpTestingController);
+    });
 
-        // Mock de environment.api usando Object.defineProperty
-        Object.defineProperty(repository, 'url', {
-            get: jest.fn().mockReturnValue(mockApiUrl),
-            configurable: true
-        });
+    afterEach(() => {
+        httpMock.verify();
     });
 
     it('debería crear el servicio', () => {
@@ -42,23 +31,23 @@ describe('TaskRepository Unit Tests', () => {
     it('debería obtener las tareas de un usuario', () => {
         const userId = '123';
         const mockTasks: ITask[] = [
-            { id: '1', title: 'Tarea 1', userId, description: '', isCompleted: false },
-            { id: '2', title: 'Tarea 2', userId, description: '', isCompleted: false },
+            { id: '1', title: 'Tarea 1', userId: '123', description: '', isCompleted: false },
+            { id: '2', title: 'Tarea 2', userId: '123', description: '', isCompleted: false },
         ];
         const mockResponse: ApiResponse<ITask[]> = {
             status: 'success',
             message: 'Tareas obtenidas exitosamente',
-            data: mockTasks
+            data: mockTasks,
         };
 
-        httpClient.get.mockReturnValue(of(mockResponse));
-
-        repository.getTasksByUser(userId).subscribe((res: ApiResponse<ITask[]>) => {
+        repository.getTasksByUser(userId).subscribe((res) => {
             expect(res).toEqual(mockResponse);
             expect(res.data.length).toBe(2);
         });
 
-        expect(httpClient.get).toHaveBeenCalledWith(`${mockApiUrl}/task/${userId}`);
+        const req = httpMock.expectOne(`${apiUrl}/task/${userId}`);
+        expect(req.request.method).toBe('GET');
+        req.flush(mockResponse);
     });
 
     it('debería crear una nueva tarea', () => {
@@ -66,17 +55,18 @@ describe('TaskRepository Unit Tests', () => {
         const mockResponse: ApiResponse<ITask> = {
             status: 'success',
             message: 'Tarea creada exitosamente',
-            data: newTask
+            data: newTask,
         };
 
-        httpClient.post.mockReturnValue(of(mockResponse));
-
-        repository.create(newTask).subscribe((res: ApiResponse<ITask>) => {
+        repository.create(newTask).subscribe((res) => {
             expect(res).toEqual(mockResponse);
             expect(res.data.title).toBe('Nueva Tarea');
         });
 
-        expect(httpClient.post).toHaveBeenCalledWith(`${mockApiUrl}/task`, newTask);
+        const req = httpMock.expectOne(`${apiUrl}/task`);
+        expect(req.request.method).toBe('POST');
+        expect(req.request.body).toEqual(newTask);
+        req.flush(mockResponse);
     });
 
     it('debería actualizar una tarea', () => {
@@ -84,17 +74,18 @@ describe('TaskRepository Unit Tests', () => {
         const mockResponse: ApiResponse<ITask> = {
             status: 'success',
             message: 'Tarea actualizada exitosamente',
-            data: updatedTask
+            data: updatedTask,
         };
 
-        httpClient.put.mockReturnValue(of(mockResponse));
-
-        repository.update(updatedTask).subscribe((res: ApiResponse<ITask>) => {
+        repository.update(updatedTask).subscribe((res) => {
             expect(res).toEqual(mockResponse);
             expect(res.data.title).toBe('Tarea Actualizada');
         });
 
-        expect(httpClient.put).toHaveBeenCalledWith(`${mockApiUrl}/task`, updatedTask);
+        const req = httpMock.expectOne(`${apiUrl}/task`);
+        expect(req.request.method).toBe('PUT');
+        expect(req.request.body).toEqual(updatedTask);
+        req.flush(mockResponse);
     });
 
     it('debería eliminar una tarea', () => {
@@ -102,15 +93,15 @@ describe('TaskRepository Unit Tests', () => {
         const mockResponse: ApiResponse<void> = {
             status: 'success',
             message: 'Tarea eliminada exitosamente',
-            data: undefined
+            data: undefined,
         };
 
-        httpClient.delete.mockReturnValue(of(mockResponse));
-
-        repository.delete(taskId).subscribe((res: ApiResponse<void>) => {
+        repository.delete(taskId).subscribe((res) => {
             expect(res).toEqual(mockResponse);
         });
 
-        expect(httpClient.delete).toHaveBeenCalledWith(`${mockApiUrl}/task/${taskId}`);
+        const req = httpMock.expectOne(`${apiUrl}/task/${taskId}`);
+        expect(req.request.method).toBe('DELETE');
+        req.flush(mockResponse);
     });
 });

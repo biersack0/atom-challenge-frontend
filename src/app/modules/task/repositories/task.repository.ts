@@ -15,9 +15,6 @@ export class TaskRepository implements ITaskRepository {
     getTasksByUser(userId: string): Observable<ApiResponse<ITask[]>> {
         return this.http.get<ApiResponse<ITask[]>>(`${this.url}/task/${userId}`);
     }
-    findById(id: string): Observable<ApiResponse<ITask>> {
-        return this.http.get<ApiResponse<ITask>>(`${this.url}/task/${id}`);
-    }
     create(task: ITask): Observable<ApiResponse<ITask>> {
         return this.http.post<ApiResponse<ITask>>(`${this.url}/task`, task);
     }

@@ -13,7 +13,6 @@ export interface ITask {
 
 export interface ITaskService {
     getTasksByUser(userId: string): Observable<ApiResponse<ITask[]>>;
-    findById(id: string): Observable<ApiResponse<ITask>>;
     create(task: ITask): Observable<ApiResponse<ITask>>;
     update(task: ITask): Observable<ApiResponse<ITask>>;
     delete(id: string): Observable<ApiResponse<void>>;
@@ -21,7 +20,6 @@ export interface ITaskService {
 
 export interface ITaskRepository {
     getTasksByUser(userId: string): Observable<ApiResponse<ITask[]>>;
-    findById(id: string): Observable<ApiResponse<ITask>>;
     create(task: ITask): Observable<ApiResponse<ITask>>;
     update(task: ITask): Observable<ApiResponse<ITask>>;
     delete(id: string): Observable<ApiResponse<void>>;
