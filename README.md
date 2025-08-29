@@ -73,13 +73,13 @@ La aplicación incluye pruebas unitarias configuradas:
 
 ```bash
 # Ejecutar todas las pruebas
-ng test
+npm run test
 
 # Ejecutar pruebas en modo watch
-ng test --watch
+npm run test:watch
 
 # Generar reporte de cobertura
-ng test --code-coverage
+ng run test:coverage
 ```
 
 ## 📦 Build y Despliegue
