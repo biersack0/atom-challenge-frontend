@@ -28,7 +28,6 @@ describe('TaskRepository Unit Tests', () => {
         repository = TestBed.inject(TaskRepository);
         httpClient = TestBed.inject(HttpClient);
 
-        // Mock de environment.api usando Object.defineProperty
         Object.defineProperty(repository, 'url', {
             get: jest.fn().mockReturnValue(mockApiUrl),
             configurable: true
