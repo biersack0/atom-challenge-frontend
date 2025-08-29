@@ -29,6 +29,10 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
+      # Ejecutar tests
+      - name: Run tests
+        run: npm run test -- --ci --coverage
+
       # Build Angular
       - name: Build Angular app
         run: npm run build -- --configuration production
