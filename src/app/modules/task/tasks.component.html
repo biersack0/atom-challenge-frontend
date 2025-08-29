@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="task-container">
     <header class="topbar card rounded-0 border-0">
         <div class="d-flex justify-content-between my-3">
             <img alt="Logo de ATOM Chat" ngSrc="assets/images/logo-atom-chat.webp" width="152.5" height="40" priority />
@@ -9,7 +9,7 @@
     <div class="body-wrapper">
         <div class="container-fluid">
             <h1 class="text-center mb-4">Tareas</h1>
-            <ul class="nav nav-pills p-3 mb-3 rounded align-items-center card flex-row">
+            <ul class="nav nav-pills p-3 mb-3 rounded align-items-center card flex-row task-container__filter">
                 <li class="nav-item">
                     <a (click)="filterTasks('all')" class="nav-link pointer" [ngClass]="{'active': filter === 'all'}">
                         <span class="font-weight-medium">Todo</span>
@@ -31,14 +31,14 @@
                 <li class="nav-item ms-auto">
                     <a (click)="openModal()" class="btn button-primary d-flex align-items-center">
                         <i class="fa-solid fa-plus"></i>
-                        <span class="ms-2 d-none d-md-block font-weight-medium fs-3">Agregar tarea</span>
+                        <span class="ms-2 font-weight-medium fs-3">Agregar tarea</span>
                     </a>
                 </li>
             </ul>
-            <div class="tab-content">
-                <div id="note-full-container" class="note-has-grid row">
+            <div class="">
+                <div class="note-has-grid row">
                     @for (task of tasksFiltered; track task.id) {
-                    <div class="col-md-4 single-note-item">
+                    <div class="col-md-4 col-lg-3 single-note-item">
                         <app-card-task [task]="task" />
                     </div>
                     }
